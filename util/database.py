@@ -80,11 +80,13 @@ class MysqldbHelper(object):
         """
         try:
             self.cur.execute(sql,args=args)
+            print (self.cur._last_executed ) # 打印sql语句
             records = self.cur.fetchall()
             return records
         except Exception as e:
             error = 'MySQL execute failed! ERROR (%s): %s' %(e.args[0],e.args[1])
             print (error)
+            return erro
 
     def executeCommit(self,sql='',args=''):
         """执行数据库sql语句，针对更新,删除,事务等操作失败时回滚
@@ -92,6 +94,7 @@ class MysqldbHelper(object):
         """
         try:
             self.cur.execute(sql,args)
+            print ( self.cur._last_executed )  # 打印sql语句
             self.con.commit()
         except pymysql.Error as e:
             self.con.rollback()

@@ -7,10 +7,12 @@ import time
 '''
 add user return user_id
 '''
-tb_name='user'
 def add_user(params):
-    return sh().insert(tb_name,params)
-
+    mysql=sh()
+    sql='insert into user (name,password,account_id,add_time,update_time) values (%s,%s,%s,%s)'
+    erro_info=mysql.executeCommit(sql,params)
+    user_id=mysql.cur.lastrowid
+    return (user_id,erro_info)
 
 def query_name(value):
     sql='select * from user where name=%s'
@@ -29,6 +31,9 @@ def update_login(id):
 def update_logout(id):
     sql = 'update user set is_login=0 where id=%s'
     sh().executeCommit(sql, id)
+
+
+
 if __name__ == '__main__':
     hello=query_name_password('zhangsan','1234567')
     print(hello)

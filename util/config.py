@@ -4,6 +4,7 @@
 import configparser
 import os
 
+
 class ConfigUtil:
     BADR_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+os.sep+'conf'
     def __init__(self,config=configparser.ConfigParser(),address=BADR_DIR):
@@ -23,12 +24,4 @@ class ConfigUtil:
     def read_config_database(self,key):
         return self.read_config('DATABASE',key)
 
-
-
-
-
-# if __name__ == '__main__':
-#     ConfigUtil().add(**{'MENU': {'商品管理': 'url'}})
-#     print(ConfigUtil().read_config('DATABASE','url'))
-#     print(ConfigUtil().read_config_database('url'))
 
