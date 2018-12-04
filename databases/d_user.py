@@ -32,3 +32,4 @@ def update_logout(id):
 if __name__ == '__main__':
     hello=query_name_password('zhangsan','1234567')
     print(hello)
+    print('he')
