@@ -11,11 +11,7 @@ def getHomePageMenu(user_id):
         response['data'] = {'message': '查询不到此用户的管理员类型'}
     #查询出管理员状态码
     elif isinstance(result, tuple):
-        admin_code=result[0]
-        if admin_code==0:
-            result_menu=d_menu.get_menu(0)
-        else:
-            result_menu = d_menu.get_menu(0, admin_code)
+        result_menu = d_menu.get_menu(0, 0)
         if isinstance(result_menu,tuple):
             menu_list=[x[0] for x in result_menu ]
             response['code'] = 200
@@ -33,4 +29,4 @@ def getHomePageMenu(user_id):
 
 if __name__ == '__main__':
     hello=getHomePageMenu(1)
-    print(hello)
+    print('helllo',hello)
