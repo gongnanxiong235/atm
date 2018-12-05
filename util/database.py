@@ -72,22 +72,37 @@ class MysqldbHelper(object):
         print ('creatTable:'+sql)
         self.executeCommit(sql)
 
-    def executeSql(self,sql='',args=''):
-        """执行sql语句，针对读操作返回结果集
-
-            args：
-                sql  ：sql语句
-        """
+    '''
+    返回值：
+    1.元祖:表明查询到了结果
+    2.None：表明没有查询到结果
+    3.字符串：表明已经捕捉到了异常
+    rtype:返回类型，如果etype=dict 以字典的形式返回查询到的数据，相反则以二维元祖的形式返回数据
+    
+    '''
+    def executeSql(self,sql='',args='',type='all',rtype=''):
+        #执行sql语句，针对读操作返回结果集
+        if rtype=='dict':
+            self.cur = self.con.cursor(cursor=pymysql.cursors.DictCursor)
         try:
             self.cur.execute(sql,args=args)
-            print (self.cur._last_executed ) # 打印sql语句
-            records = self.cur.fetchall()
-            return records
+            print ('sql',self.cur._last_executed ) # 打印sql语句
+            if type=='one':
+                records = self.cur.fetchone()
+            else:
+                records = self.cur.fetchall()
+            print('records',records)
         except Exception as e:
-            error = 'MySQL execute failed! ERROR (%s): %s' %(e.args[0],e.args[1])
-            print (error)
-            return erro
+            print('e:',e)
+            records = 'MySQL execute failed! ERROR (%s): %s' %(e.args[0],e.args[1])
+            print ('erro:',records)
+        return records
 
+    '''
+        返回值:
+        1.None：表明已经执行成功
+        2.字符串：表明已经捕捉到了异常
+        '''
     def executeCommit(self,sql='',args=''):
         """执行数据库sql语句，针对更新,删除,事务等操作失败时回滚
 
